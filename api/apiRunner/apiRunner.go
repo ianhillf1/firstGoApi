@@ -1,4 +1,4 @@
-package apirunner
+package main
 
 import (
     "log"

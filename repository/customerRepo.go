@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"net/http"
 	"time"
 	"fmt"
 )
@@ -33,7 +34,7 @@ type CustomerRepo struct {
 func (repo *CustomerRepo) GetCustomerDetails(cif string) (*Customer, error) {
 	url:=fmt.Sprintf("%s/GetCustomerDetails?CustomerCif=%s", repo.BaseURL, cif)
 	var customer JSONCustomer
-	err := Client.GetJSONObject(url, nil, &customer)
+	err := Client.GetJSONObject(url, &http.Header{}, &customer)
 	if err != nil {
 		return nil, err
 	}
