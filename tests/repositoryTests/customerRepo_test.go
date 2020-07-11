@@ -1,6 +1,7 @@
 package customerrepotests
 
 import (
+	"time"
 	"testing"
 	"../../repository"
 	"net/http"
@@ -21,6 +22,31 @@ func TestGetCustomerDetailsCallsAPICorrectly(t *testing.T){
 	assert.IsType(t, &customer, *mock.itemPassed, "Type of item passed")
 }
 
+func TestGetCustomerDetailsReturnsCustomer(t *testing.T){
+	customerRepo := repository.CustomerRepo{ BaseURL: "http://test.com/myApi"}
+	mock := mockRestClient{ 
+		itemPopulator: func(item interface{}) {
+			jsonCustomer:=item.(*repository.JSONCustomer)
+			jsonCustomer.FirstName="IanTest"
+			jsonCustomer.Surname="Testy"
+			jsonCustomer.DateOfBirth="1976-09-25"
+			jsonCustomer.Title="Wing Cmdr"
+			jsonCustomer.MobileNumber="07777987654"
+		},
+	}
+	repository.Client = &mock
+
+	customer,err := customerRepo.GetCustomerDetails("400600Test")
+
+	assert.Nil(t, err, "Error returned")
+	assert.NotNil(t, customer, "No customer returned")
+	assert.EqualValues(t, "IanTest", customer.FirstName, "FirstName")
+	assert.EqualValues(t, "Testy", customer.Surname, "Surname")
+	assert.EqualValues(t, "Wing Cmdr", customer.Title, "Title")
+	assert.EqualValues(t, "07777987654", customer.MobileNumber, "MobileNumber")
+	assert.EqualValues(t, time.Date(1976, time.September, 25, 0, 0, 0, 0, time.UTC), customer.DateOfBirth, "DateOfBirth")
+}
+
 type mockRestClient struct {
 	requestCount int
 	lastRequestURL string
@@ -29,7 +55,7 @@ type mockRestClient struct {
 	errorToReturn error
 }
 
-func (mock *mockRestClient)GetJSONObject(url string, headers http.Header, item interface{}) (error){
+func (mock *mockRestClient)GetJSONObject(url string, headers *http.Header, item interface{}) (error){
 	mock.requestCount++
 	mock.lastRequestURL = url
 	mock.itemPassed = &item

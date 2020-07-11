@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"../repository"
@@ -15,7 +15,7 @@ var (
 )
 
 func init(){
-	CustomerRepo = &repository.CustomerRepo{ 
-		BaseURL = "https://thinkmoney-dev.outsystemsenterprise.com/TMAutomatedTests_Api/rest/TestDataApi",
+	CustomerRepo = &repository.CustomerRepo { 
+		BaseURL: "https://thinkmoney-dev.outsystemsenterprise.com/TMAutomatedTests_Api/rest/TestDataApi",
 	}
 }

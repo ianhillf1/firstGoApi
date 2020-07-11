@@ -15,7 +15,7 @@ type Customer struct {
 }
 
 // JSONCustomer is used to deserialize the response from the API, for better
-// control of date deserialization
+// control of date deserialization. It's only public for use in unit tests.
 type JSONCustomer struct {
 	Title string
 	FirstName string

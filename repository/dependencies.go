@@ -7,7 +7,7 @@ import (
 
 // RestClient is an interface for implementations of REST clients (can be mocked by setting Client)
 type RestClient interface {
-	GetJSONObject(url string, headers http.Header, item interface{}) (error)
+	GetJSONObject(url string, headers *http.Header, item interface{}) (error)
 }
 
 var (

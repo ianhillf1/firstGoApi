@@ -36,8 +36,8 @@ func (*RestClient) Get(url string, headers http.Header) (*http.Response, error) 
 }
 
 // GetJSONObject fetches a JSON-encoded object from the given URL
-func (client *RestClient) GetJSONObject(url string, headers http.Header, item interface{}) (error) {
-	response, err := client.Get(url, headers)
+func (client *RestClient) GetJSONObject(url string, headers *http.Header, item interface{}) (error) {
+	response, err := client.Get(url, *headers)
 	if err != nil {
 		return err
 	}

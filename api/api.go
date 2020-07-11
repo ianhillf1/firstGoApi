@@ -1,25 +1,21 @@
-package main
+package api
 
 import (
     "fmt"
-    "log"
     "net/http"
     "encoding/json"
 	"github.com/gorilla/mux"
-	//"../repository"
 )
 
-func main() {
-	handleRequests()
+// BuildRouter returns a HTTP router that will handle requests appropriately
+func BuildRouter() *mux.Router {
+	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/customer/{cif}", GetCustomerDetails)
+	return router
 }
 
-func handleRequests() {
-	myRouter := mux.NewRouter().StrictSlash(true)
-	myRouter.HandleFunc("/customer/{cif}", getCustomerDetails)
-	log.Fatal(http.ListenAndServe(":10000", myRouter))
-}
-
-func getCustomerDetails(w http.ResponseWriter, r *http.Request) {
+// GetCustomerDetails handles a HTTP request to fetch a customer matching the CIF in the request variables
+func GetCustomerDetails(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	cif := vars["cif"]
 
