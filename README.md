@@ -1,6 +1,7 @@
 # firstGoApi
-# My first attempt at a REST API (essentially a passthrough) in Go.
-# Reads customer details from the Test Data API on the tm dev environment and outputs them in JSON
+
+My first attempt at a REST API (essentially a passthrough) in Go.
+Reads customer details from the Test Data API on the tm dev environment and outputs them in JSON
 
 Packages are:
 - api  : contains the logic for responding to HTTP requests. Tested by tests/apitests
@@ -15,6 +16,8 @@ Packages are:
   
 To run the API:
   go run .\api\apiRunner\apiRunner.go
+and then visit
+  http://localhost:10000/customer/4006001200 (or other customer number)
 
 To run the console test:
   go run .\consoletest\consoletest.go
