@@ -3,10 +3,10 @@ package main
 import (
     "log"
     "net/http"
-	".."
+	"./routes"
 )
 
 func main() {
-	router:= api.BuildRouter()
+	router:= routes.BuildRouter()
 	log.Fatal(http.ListenAndServe(":10000", router))
 }

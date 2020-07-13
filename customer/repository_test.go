@@ -1,32 +1,31 @@
-package customerrepotests
+package customer
 
 import (
 	"time"
 	"testing"
-	"../../repository"
 	"net/http"
 	
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetCustomerDetailsCallsAPICorrectly(t *testing.T){
-	customerRepo := repository.CustomerRepo{ BaseURL: "http://test.com/myApi"}
+	customerRepo := RepoImpl{ BaseURL: "http://test.com/myApi"}
 	mock := mockRestClient{ }
-	repository.Client = &mock
+	Client = &mock
 
 	customerRepo.GetCustomerDetails("400600Test")
 
 	assert.EqualValues(t, 1, mock.requestCount, "Number of requests")
 	assert.EqualValues(t, "http://test.com/myApi/GetCustomerDetails?CustomerCif=400600Test", mock.lastRequestURL, "URL")
-	var customer repository.JSONCustomer;
-	assert.IsType(t, &customer, *mock.itemPassed, "Type of item passed")
+	var jsonCustomer jsonCustomer;
+	assert.IsType(t, &jsonCustomer, *mock.itemPassed, "Type of item passed")
 }
 
 func TestGetCustomerDetailsReturnsCustomer(t *testing.T){
-	customerRepo := repository.CustomerRepo{ BaseURL: "http://test.com/myApi"}
+	customerRepo := RepoImpl{ BaseURL: "http://test.com/myApi"}
 	mock := mockRestClient{ 
 		itemPopulator: func(item interface{}) {
-			jsonCustomer:=item.(*repository.JSONCustomer)
+			jsonCustomer:=item.(*jsonCustomer)
 			jsonCustomer.FirstName="IanTest"
 			jsonCustomer.Surname="Testy"
 			jsonCustomer.DateOfBirth="1976-09-25"
@@ -34,7 +33,7 @@ func TestGetCustomerDetailsReturnsCustomer(t *testing.T){
 			jsonCustomer.MobileNumber="07777987654"
 		},
 	}
-	repository.Client = &mock
+	Client = &mock
 
 	customer,err := customerRepo.GetCustomerDetails("400600Test")
 

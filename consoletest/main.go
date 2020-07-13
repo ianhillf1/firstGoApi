@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"../repository"
+	"../customer"
 )
 
 const dateFormatOutput string = "02/01/2006"
 
 func main() {
-	repo := repository.CustomerRepo{ 
+	repo := customer.RepoImpl { 
 		BaseURL: "https://thinkmoney-dev.outsystemsenterprise.com/TMAutomatedTests_Api/rest/TestDataApi",
 	}
 	customer, err := repo.GetCustomerDetails("4006001200")

@@ -1,19 +1,18 @@
-package restclienttests
+package restclient
 
 import (
 	"bytes"
 	"io/ioutil"
 	"testing"
-	"../../restclient"
 	"net/http"
 	
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetJSONObjectMakesRequest(t *testing.T){
-	restClient := restclient.RestClient { }
+	restClient := RestClient { }
 	mock := mockHTTPClient{ responseToReturn: BuildMockResponse("", 200) }
-	restclient.Client = &mock
+	Client = &mock
 
 	var result map[string]interface{}
 	var headers http.Header = http.Header{}
@@ -26,10 +25,10 @@ func TestGetJSONObjectMakesRequest(t *testing.T){
 }
 
 func TestGetJSONObjectParsesValidResponse(t *testing.T){
-	restClient := restclient.RestClient { }
+	restClient := RestClient { }
 	mock := mockHTTPClient{ responseToReturn: BuildMockResponse(
 		`{ "MyField":"MyValue", "MySubObject":{ "yarp":123, "narp":false}}`, 200) }
-	restclient.Client = &mock
+	Client = &mock
 
 	var result map[string]interface{}
 	var headers http.Header = http.Header{}
